@@ -1,3 +1,4 @@
 *.jar 
 *.cmd
-**/mvnw
+**/mvnwgit r
+*.properties
