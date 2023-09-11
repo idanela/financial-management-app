@@ -3,9 +3,7 @@ package com.elazaridan.userservice.model;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import java.io.Serializable;
+
 
 
 @Document(value = "user")
