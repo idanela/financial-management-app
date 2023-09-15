@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class Listeners {
 
     private final IncomeService incomeService;
     private final ObjectMapper objectMapper;
+    private final RabbitTemplate rabbitTemplate;
 
 
     @RabbitListener(queues = "income-queue")
@@ -31,7 +33,16 @@ public class Listeners {
         channel.basicAck(deliveryTag, false); // send an ACK to rabbitMQ server (otherwise each time we'll restart the app all unAcked messages will be sent again.)
         IncomeResponse incomeResponse = incomeService.createIncomeEntry(incomeEvent.getUserId(),incomeEvent.getIncomeRequest());
         String jsonResponse = objectMapper.writeValueAsString(incomeResponse);
+        incomeEvent.getIncomeRequest().setDate(incomeResponse.getDate());
+        String IncomeEventJsonPayload = objectMapper.writeValueAsString(incomeEvent);
 
+        try {
+            rabbitTemplate.convertAndSend("income-budget-exchange", "add-income-budget-routing-key", IncomeEventJsonPayload);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
         return  jsonResponse;
     }
 

@@ -1,6 +1,7 @@
 package com.elazaridan.incomeservice.dto.events;
 
 import com.elazaridan.incomeservice.dto.income.IncomeRequest;
+import lombok.Builder;
 
 import java.io.Serializable;
 
