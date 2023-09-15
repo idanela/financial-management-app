@@ -2,3 +2,4 @@
 *.cmd
 **/mvnwgit r
 *.properties
+*.idea
