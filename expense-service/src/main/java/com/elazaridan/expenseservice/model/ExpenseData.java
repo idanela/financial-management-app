@@ -20,6 +20,7 @@ public class ExpenseData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long expenseId;
+    private String userId;
     private String beneficiary;
     private double sum;
     private LocalDate date;

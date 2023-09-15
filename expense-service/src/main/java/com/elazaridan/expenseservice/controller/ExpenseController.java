@@ -3,7 +3,9 @@ package com.elazaridan.expenseservice.controller;
 import com.elazaridan.expenseservice.Exceptions.InternalServerErrorException;
 import com.elazaridan.expenseservice.dto.ExpenseResponse;
 import com.elazaridan.expenseservice.dto.ExpenseRequest;
+import com.elazaridan.expenseservice.dto.events.ExpenseEvent;
 import com.elazaridan.expenseservice.service.ExpenseService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +21,10 @@ public class ExpenseController {
 
     private final ExpenseService expenseService;
 
-    @PostMapping
+    @PostMapping("{userId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ExpenseResponse createExpense(@RequestBody ExpenseRequest creationRequest)
-    {
-       return expenseService.createExpenseEntry(creationRequest);
+    public ResponseEntity<?> createExpense(@PathVariable String userId,@RequestBody ExpenseRequest creationRequest) throws JsonProcessingException {
+        return expenseService.requestExpense(userId,creationRequest);
     }
 
     @GetMapping
