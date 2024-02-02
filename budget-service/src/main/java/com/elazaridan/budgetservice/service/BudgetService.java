@@ -58,7 +58,7 @@ public class BudgetService {
         double sumAddition = incomeEvent.getIncomeRequest().getAmount() * budgetPercentage;
         incomeEvent.getIncomeRequest().setDate( incomeEvent.getIncomeRequest().getDate().plusMonths(1));
         incomeEvent.getIncomeRequest().setAmount(sumAddition);
-        BudgetRequest request =getBudgetRequest(incomeEvent);
+        BudgetRequest request = getBudgetRequest(incomeEvent);
         boolean budgetCreated = createBudget(request);
         if(!budgetCreated){
             addSumToBudget(request);
@@ -87,7 +87,7 @@ public class BudgetService {
         if(!budgetCreated){
             hasSufficientFunds = addExpenseToBudget(request);
         }
-        return hasSufficientFunds; // is budget is created the boolean won't change, otherwise it can go both ways.
+        return hasSufficientFunds; // if budget is created the boolean won't change, otherwise it can go both ways.
     }
 
     private boolean addExpenseToBudget(BudgetRequest request) {
